@@ -65,7 +65,7 @@
 
 (defun perlenv-set-local-lib (path)
   "Set local::lib path"
-  (interactive "flocal::lib path to set: ")
+  (interactive "flocal::lib path to set (reset when blank): ")
   (if (equal path "")
       (progn
         (setq perlenv-local-lib-path nil)
