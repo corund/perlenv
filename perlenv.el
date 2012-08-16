@@ -31,6 +31,7 @@
 ;;  M-x perlenv-perldb
 ;;  M-x perlenv-perlbrew-use
 ;;  M-x perlenv-set-local-lib
+;;  M-x perlenv-perlbrew-switch-off
 
 ;; The following functions are available
 ;;  (perlenv-get-perl-path)
@@ -115,10 +116,12 @@
 
 (defun perlenv-get-perl-path ()
   "Get current using perl path"
-  (concat perlenv-perlbrew-root
-          "/perls/perl-"
-          perlenv-perlbrew-use-version
-          "/bin/perl"))
+  (if (and perlenv-perlbrew-root perlenv-perlbrew-use-version)
+      (concat perlenv-perlbrew-root
+              "/perls/perl-"
+              perlenv-perlbrew-use-version
+              "/bin/perl")
+    "/usr/bin/perl"))
 
 (defun perlenv-get-perl-inc-args ()
   "Get -I... argument"
@@ -133,6 +136,11 @@
   (let ((exec-path (perlenv-build-exec-path))
         (process-environment (perlenv-build-process-environment)))
     (cperl-db)))
+
+(defun perlenv-perlbrew-switch-off ()
+  "Turn off perlbrew (use system perl)"
+  (interactive)
+  (setq perlenv-perlbrew-use-version nil))
 
 (defun perlenv-perlbrew-list ()
   (mapcar (lambda (s)
